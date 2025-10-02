@@ -52,7 +52,12 @@ export class AuthService {
   }
 
   async signIn(email: string, password: string) {
-    const existingUser = await this.userRepository.findOneBy({ email });
+    const existingUser = await this.userRepository.findOne({
+      where: { email },
+      // carrega os relacionamentos
+      relations: ['userGroupUsers', 'userGroupUsers.userGroup'],
+    });
+
     if (!existingUser) {
       throw new UnauthorizedException('Email não encontrado.');
     }
@@ -65,7 +70,17 @@ export class AuthService {
       throw new UnauthorizedException('Senha inválida.');
     }
 
-    const payload = { sub: existingUser.id, username: existingUser.email };
+    // Extrai as roles do usuário
+    const roles = existingUser.userGroupUsers
+      ? existingUser.userGroupUsers.map((ugu) => ugu.userGroup.name)
+      : [];
+
+    const payload = {
+      sub: existingUser.id,
+      username: existingUser.email,
+      roles: roles,
+    };
+
     return { access_token: this.jwtService.sign(payload) };
   }
 }

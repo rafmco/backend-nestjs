@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 import { UserGroupUser } from './user-group-user.entity';
 
 @Entity()
-export class User {
+export class UserGroup {
   @PrimaryColumn('char', { length: 36 })
   id: string;
 
@@ -10,19 +10,7 @@ export class User {
   name: string;
 
   @Column({ length: 255 })
-  email: string;
-
-  @Column({ length: 255 })
-  password: string;
-
-  @Column({ length: 255 })
-  salt: string;
-
-  @Column('tinyint')
-  active: number;
-
-  @Column({ length: 255, nullable: true })
-  avatarUrl: string;
+  organizationId: string;
 
   @Column('timestamp')
   createdAt: Date;
@@ -31,6 +19,6 @@ export class User {
   deletedAt: Date;
 
   // Relacionar groups com users via UserGroupUser
-  @OneToMany(() => UserGroupUser, (userGroupUser) => userGroupUser.user)
+  @OneToMany(() => UserGroupUser, (userGroupUser) => userGroupUser.userGroup)
   userGroupUsers: UserGroupUser[];
 }
