@@ -28,4 +28,8 @@ export class AppConfigService {
   get databaseName(): string {
     return this.config.get<string>('DATABASE_NAME', '');
   }
+
+  get jwtSecret(): string {
+    return this.config.get<string>('JWT_SECRET', '');
+  }
 }

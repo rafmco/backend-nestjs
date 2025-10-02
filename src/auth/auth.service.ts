@@ -10,6 +10,7 @@ import { UserActive } from '../user/user-active.enum';
 
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+import { JwtService } from '@nestjs/jwt';
 
 const scrypt = promisify(_scrypt);
 
@@ -18,6 +19,8 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+
+    private readonly jwtService: JwtService,
   ) {}
 
   async signUp(name: string, email: string, password: string) {
@@ -62,8 +65,7 @@ export class AuthService {
       throw new UnauthorizedException('Senha inválida.');
     }
 
-    // Omit password and salt in the response
-    const { password: _, salt: __, ...result } = existingUser;
-    return result;
+    const payload = { sub: existingUser.id, username: existingUser.email };
+    return { access_token: this.jwtService.sign(payload) };
   }
 }
