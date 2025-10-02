@@ -5,6 +5,7 @@ import { getTypeOrmConfig } from './orm-config';
 import { AppConfigModule } from './app-config/app-config.module';
 import { AppConfigService } from './app-config/app-config.service';
 import { AuthModule } from './auth/auth.module';
+import { FeatureModule } from './feature/feature.module';
 
 // Annotation that defines a module in NestJS
 @Module({
@@ -31,6 +32,7 @@ import { AuthModule } from './auth/auth.module';
     // }),
     UserModule,
     AuthModule,
+    FeatureModule,
   ],
 })
 export class AppModule {}

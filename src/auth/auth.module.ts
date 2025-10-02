@@ -6,9 +6,12 @@ import { User } from 'src/user/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConfigService } from 'src/app-config/app-config.service';
 import { AppConfigModule } from 'src/app-config/app-config.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
+    PassportModule,
     TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync({
       inject: [AppConfigService],
@@ -18,8 +21,10 @@ import { AppConfigModule } from 'src/app-config/app-config.module';
         signOptions: { expiresIn: '60s' },
       }),
     }),
+    AppConfigModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
+  exports: [JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

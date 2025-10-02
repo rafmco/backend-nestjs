@@ -30,6 +30,6 @@ export class AppConfigService {
   }
 
   get jwtSecret(): string {
-    return this.config.get<string>('JWT_SECRET', '');
+    return this.config.getOrThrow<string>('JWT_SECRET', '');
   }
 }
