@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getTypeOrmConfig } from './orm-config';
+import { AppConfigModule } from './app-config/app-config.module';
+import { AppConfigService } from './app-config/app-config.service';
 
 // Annotation that defines a module in NestJS
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    AppConfigModule,
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [AppConfigModule],
       useFactory: getTypeOrmConfig,
-      inject: [ConfigService],
+      inject: [AppConfigService],
     }),
     // TypeOrmModule.forRootAsync({
     //   imports: [ConfigModule],
