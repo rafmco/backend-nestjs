@@ -13,8 +13,7 @@ import { RefreshToken } from './entities/refreshToken.entity';
 @Module({
   imports: [
     PassportModule,
-    TypeOrmModule.forFeature([User]),
-    TypeOrmModule.forFeature([RefreshToken]),
+    TypeOrmModule.forFeature([User, RefreshToken]),
     JwtModule.registerAsync({
       inject: [AppConfigService],
       imports: [AppConfigModule],
