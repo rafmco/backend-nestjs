@@ -8,11 +8,13 @@ import { AppConfigService } from 'src/app-config/app-config.service';
 import { AppConfigModule } from 'src/app-config/app-config.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import { RefreshToken } from './entities/refreshToken.entity';
 
 @Module({
   imports: [
     PassportModule,
     TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([RefreshToken]),
     JwtModule.registerAsync({
       inject: [AppConfigService],
       imports: [AppConfigModule],
