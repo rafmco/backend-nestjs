@@ -13,8 +13,6 @@ import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { JwtService } from '@nestjs/jwt';
 
-import { v4 as uuid } from 'uuid';
-
 const scrypt = promisify(_scrypt);
 
 @Injectable()
@@ -40,7 +38,6 @@ export class AuthService {
     // const saltAndHash = `${salt}.${hash.toString('hex')}`;
 
     const user = this.userRepository.create({
-      id: uuid(),
       name,
       email,
       password: hash.toString('hex'),
@@ -100,7 +97,6 @@ export class AuthService {
     console.log('1');
     // Salvar o refresh token no banco de dados
     const newRefreshToken = this.refreshTokenRepository.create({
-      id: uuid(),
       value: refreshToken,
       userId: existingUser.id,
       createdAt: new Date(),
@@ -165,7 +161,6 @@ export class AuthService {
 
     // Salvar o refresh token no banco de dados
     const createRefreshToken = this.refreshTokenRepository.create({
-      id: uuid(),
       value: newRefreshToken,
       userId: existingUser.id,
       createdAt: new Date(),

@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  OneToMany,
+  BeforeInsert,
+} from 'typeorm';
 import { UserGroupUser } from './user-group-user.entity';
+import { v4 as uuid } from 'uuid';
 
 @Entity()
 export class User {
@@ -33,4 +40,9 @@ export class User {
   // Relacionar groups com users via UserGroupUser
   @OneToMany(() => UserGroupUser, (userGroupUser) => userGroupUser.user)
   userGroupUsers: UserGroupUser[];
+
+  @BeforeInsert()
+  generateId() {
+    this.id = uuid();
+  }
 }

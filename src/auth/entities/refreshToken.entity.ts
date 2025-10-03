@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryColumn, BeforeInsert } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 @Entity()
 export class RefreshToken {
   @PrimaryColumn('char', { length: 36 })
@@ -16,4 +16,9 @@ export class RefreshToken {
 
   @Column('timestamp', { nullable: true })
   deletedAt: Date;
+
+  @BeforeInsert()
+  generateId() {
+    this.id = uuid();
+  }
 }
