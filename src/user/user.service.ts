@@ -25,17 +25,24 @@ export class UserService {
   }
 
   async findAll() {
-    if (!(await this.userRepository.find()))
-      throw new NotFoundException('Nenhum usuário encontrado.');
+    const users = await this.userRepository.find();
 
-    return await this.userRepository.find();
+    // Verifica se o array está vazio
+    if (users.length === 0) {
+      throw new NotFoundException('Nenhum usuário encontrado.');
+    }
+
+    return users;
   }
 
   async findOne(id: string) {
-    if (!(await this.userRepository.findOneBy({ id })))
-      throw new NotFoundException(`Usuário id:${id} não encontrado.`);
+    const user = await this.userRepository.findOneBy({ id });
 
-    return await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(`Usuário id:${id} não encontrado.`);
+    }
+
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
