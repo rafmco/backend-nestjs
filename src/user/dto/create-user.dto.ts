@@ -1,8 +1,6 @@
 import { IsString, Length } from 'class-validator';
 
 export class CreateUserDto {
-  id: string;
-
   @IsString({ message: 'Nome deve ser uma string.' })
   @Length(5, 255, { message: 'Nome deve ter de 5 até 255 caracteres.' })
   name: string;

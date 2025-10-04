@@ -94,7 +94,6 @@ export class AuthService {
       { expiresIn: '1h' },
     );
 
-    console.log('1');
     // Salvar o refresh token no banco de dados
     const newRefreshToken = this.refreshTokenRepository.create({
       value: refreshToken,
@@ -102,7 +101,6 @@ export class AuthService {
       createdAt: new Date(),
     });
 
-    console.log('2');
     await this.refreshTokenRepository.save(newRefreshToken);
 
     return { accessToken, refreshToken };
